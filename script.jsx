@@ -1,4 +1,6 @@
-// my script
+// Extensions To Use:
+        // ExtendScript Debugger (by Adobe)
+        // Adobe Script Runner (by renderTom)
 
 var window = new Window("palette", "Script", undefined);
 window.orientation = "column";
@@ -68,10 +70,9 @@ function modifyLayers() {
         alert("No composition selected");
         return false;
     }
-
-    // var composition = app.project.activeItem;
-    // var layer = composition.layer(1);
-    app.project.item(1).layer(1).moveToBeginning();
+    
+    app.executeCommand(app.findMenuCommandId("Select All"));
+    // app.executeCommand(app.findMenuCommandId("Sequence Layers..."));
 
 
     // layer.property("ADBE Transform Group").property("ADBE Scale").setValue([200, 200]);
@@ -90,21 +91,12 @@ function addTwixtors() {
 }
 
 function splitClips() {
-    if (app.project.activeItem == null || !(app.project.activeItem instanceof CompItem)) {
-        alert("No composition selected");
-        return false;
-    }
-
-    app.project.item(1).layer(1).doSceneEditDetection(SceneEditDetectionMode.SPLIT_PRECOMP);
+    app.executeCommand(app.findMenuCommandId("Split Layer"));
 }
 
 function pageDowns() {
+    // change number depending on length of moving frames
     var number = 5;
-    //if (isNaN(number)) {
-    //    alert("Invalid input!");
-    //    return false;
-    //}
-
     var comp = app.project.activeItem;
     if (comp && comp instanceof CompItem) {
         for (var i = 0; i < number; i++) {
@@ -112,6 +104,9 @@ function pageDowns() {
                 comp.time = comp.time + comp.frameDuration;
             }
         }
+        app.executeCommand(app.findMenuCommandId("Split Layer"));
+        comp.time = comp.time + comp.frameDuration;
+        app.executeCommand(app.findMenuCommandId("Split Layer"));
     }
 }
 
@@ -124,7 +119,7 @@ function removeOneFrameLayers() {
     var selectedLayers = comp.selectedLayers;
     for (var i = 0; i < selectedLayers.length; i++) {
         var layer = selectedLayers[i];
-        if (layer.outPoint - layer.inPoint == comp.frameDuration) {
+        if (i % 2 == 0) {
             layer.remove();
         }
     }
