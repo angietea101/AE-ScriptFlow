@@ -91,12 +91,17 @@ function addTwixtors() {
 }
 
 function splitClips() {
-    app.executeCommand(app.findMenuCommandId("Split Layer"));
+    if (app.project.activeItem == null || !(app.project.activeItem instanceof CompItem)) {
+        alert("No composition selected");
+        return false;
+    }
+
+    app.project.item(1).layer(1).doSceneEditDetection(SceneEditDetectionMode.SPLIT_PRECOMP);
 }
 
 function pageDowns() {
     // change number depending on length of moving frames
-    var number = 5;
+    var number = 4;
     var comp = app.project.activeItem;
     if (comp && comp instanceof CompItem) {
         for (var i = 0; i < number; i++) {
