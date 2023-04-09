@@ -11,6 +11,7 @@ var group = window.add("group", undefined, "");
 group.orientation = "row";
 var buttonOne = group.add("button", undefined, "Twixtor 80");
 var buttonTwo = group.add("button", undefined, "Twixtor Second 60");
+var buttonThree = group.add("button", undefined, "Twixtor Tamsaeps")
 var splitClip = group.add("button", undefined, "Split Clips");
 
 var group2 = window.add("group", undefined, "");
@@ -54,6 +55,10 @@ buttonOne.onClick = function() {
 
 buttonTwo.onClick = function() {    
     addTwixtors();
+}
+
+buttonThree.onClick = function() {
+    addTwixtorsTamsaep();
 }
 
 splitClip.onClick = function () {
@@ -110,6 +115,18 @@ function addTwixtors() {
     
     var composition = app.project.activeItem;
     var presetPath = "C:/Users/Angie/Documents/Adobe/After Effects 2022/User Presets/Twixtor Second 60.ffx";
+    var myPreset = File(presetPath)
+    composition.layer(1).applyPreset(myPreset);
+}
+
+function addTwixtorsTamsaep() {
+    if (app.project.activeItem == null || !(app.project.activeItem instanceof CompItem)) {
+        alert("No composition selected");
+        return false;
+    }
+    
+    var composition = app.project.activeItem;
+    var presetPath = "C:/Users/Angie/Documents/Adobe/After Effects 2022/User Presets/Twixtor Tamsaeps.ffx";
     var myPreset = File(presetPath)
     composition.layer(1).applyPreset(myPreset);
 }
