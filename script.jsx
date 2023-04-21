@@ -2,6 +2,10 @@
         // ExtendScript Debugger (by Adobe)
         // Adobe Script Runner (by renderTom)
 
+// Guides
+        // After Effects Scripting Guide - https://ae-scripting.docsforadobe.dev/
+        // UI Reference Guide - https://fotozcech.cz/wp-content/uploads/2015/11/scriptui-2-8.pdf
+
 var window = new Window("palette", "Script", undefined);
 window.orientation = "column";
 var text = window.add("statictext", undefined, "brandon ugly");
@@ -180,10 +184,24 @@ function sequenceLayers() {
 }
 
 function addLayers() {
-    if (app.project.activeItem == null || !(app.project.activeItem instanceof CompItem)) {
+    // Saves the selected "clip" aka layer into a variable
+    var comp = app.project.activeItem;
+    if (comp === null || !(comp instanceof CompItem)) {
         alert("No composition selected");
         return false;
     }
-    var layer = app.project.activeItem;
-    var nullobject = app.project.activeItem.layers.addNull(layer.outPoint-layer.inPoint);
+    // Get the first selected layer
+    var selectedLayer = comp.selectedLayers[0];
+    // Retrieve the layer index
+    var layerIndex = selectedLayer.index;
+    // Add a null layer
+    var nullLayer = comp.layers.addNull();
+    // Move the null layer above the selected layer
+    nullLayer.moveBefore(selectedLayer);
+    // Set the start and end points to the selected layer's
+    nullLayer.inPoint = comp.layer(layerIndex + 1).inPoint;
+    nullLayer.outPoint = comp.layer(layerIndex + 1).outPoint;
+    // Parent the layer
+    selectedLayer.parent = nullLayer;
+    return true;
 }

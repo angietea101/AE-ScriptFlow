@@ -1,0 +1,11 @@
+{
+	"folders": [
+		{
+			"path": "../MOOgiwara/server"
+		},
+		{
+			"path": "../MOOgiwara/client"
+		}
+	],
+	"settings": {}
+}
