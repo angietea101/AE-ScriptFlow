@@ -135,6 +135,7 @@ function addTwixtorsTamsaep() {
     composition.layer(1).applyPreset(myPreset);
 }
 
+// Flesh out the Twixtor adding mechanism
 function splitClips() {
     if (app.project.activeItem == null || !(app.project.activeItem instanceof CompItem)) {
         alert("No composition selected");
@@ -183,6 +184,7 @@ function sequenceLayers() {
     app.executeCommand(app.findMenuCommandId('Sequence Layers...'))
 }
 
+// TODO: Create for loop to iterate through every selected clip
 function addLayers() {
     // Saves the selected "clip" aka layer into a variable
     var comp = app.project.activeItem;
