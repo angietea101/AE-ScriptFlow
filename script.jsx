@@ -184,26 +184,36 @@ function sequenceLayers() {
     app.executeCommand(app.findMenuCommandId('Sequence Layers...'))
 }
 
-// TODO: Create for loop to iterate through every selected clip
 function addLayers() {
     // Saves the selected "clip" aka layer into a variable
     var comp = app.project.activeItem;
+
+    // Broken
     if (comp === null || !(comp instanceof CompItem)) {
         alert("No composition selected");
         return false;
     }
-    // Get the first selected layer
-    var selectedLayer = comp.selectedLayers[0];
-    // Retrieve the layer index
-    var layerIndex = selectedLayer.index;
-    // Add a null layer
-    var nullLayer = comp.layers.addNull();
-    // Move the null layer above the selected layer
-    nullLayer.moveBefore(selectedLayer);
-    // Set the start and end points to the selected layer's
-    nullLayer.inPoint = comp.layer(layerIndex + 1).inPoint;
-    nullLayer.outPoint = comp.layer(layerIndex + 1).outPoint;
-    // Parent the layer
-    selectedLayer.parent = nullLayer;
+
+    var allLayers = comp.selectedLayers;
+    var selectedLayer;
+    var layerIndex;
+    var nullLayer;
+    var count = 1
+
+    // Loops through all layers selected and adds a null layer on top
+    for (var i = 0; i < allLayers.length * 2; i++) {
+        // Get the first selected layer
+        selectedLayer = allLayers[i];
+        selectedLayer.label = 0
+        layerIndex = selectedLayer.index;
+        nullLayer = comp.layers.addNull();
+        // Move the null layer above the selected layer
+        nullLayer.moveBefore(selectedLayer);
+        // Set the duration to match the current selected layer
+        nullLayer.inPoint = comp.layer(layerIndex + 1).inPoint;
+        nullLayer.outPoint = comp.layer(layerIndex + 1).outPoint;
+        // Parent the layer
+        selectedLayer.parent = nullLayer;
+    }
     return true;
 }
