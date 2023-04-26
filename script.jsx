@@ -204,7 +204,6 @@ function addLayers() {
     for (var i = 0; i < allLayers.length * 2; i++) {
         // Get the first selected layer
         selectedLayer = allLayers[i];
-        selectedLayer.label = 0
         layerIndex = selectedLayer.index;
         nullLayer = comp.layers.addNull();
         // Move the null layer above the selected layer
