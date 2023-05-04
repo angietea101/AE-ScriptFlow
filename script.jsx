@@ -24,7 +24,7 @@ var removeOnes = group2.add("button", undefined, "Remove Ones");
 var sequenceLayer = group2.add("button", undefined, "Sequence Layers");
 
 var group3 = window.add("group", undefined, "");
-var addLayer = group3.add("button", undefined, "Add Layer");
+var addNullLayer = group3.add("button", undefined, "Add Layer");
 
 var array = ["Test 1", "Test 2", "Test 3"];
 
@@ -81,8 +81,8 @@ sequenceLayer.onClick = function () {
     sequenceLayers();
 }
 
-addLayer.onClick = function () {
-    addLayers();
+addNullLayer.onClick = function () {
+    addNullLayers();
 }
 
 
@@ -184,7 +184,7 @@ function sequenceLayers() {
     app.executeCommand(app.findMenuCommandId('Sequence Layers...'))
 }
 
-function addLayers() {
+function addNullLayers() {
     // Saves the selected "clip" aka layer into a variable
     var comp = app.project.activeItem;
 
