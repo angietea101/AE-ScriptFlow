@@ -24,7 +24,8 @@ var removeOnes = group2.add("button", undefined, "Remove Ones");
 var sequenceLayer = group2.add("button", undefined, "Sequence Layers");
 
 var group3 = window.add("group", undefined, "");
-var addNullLayer = group3.add("button", undefined, "Add Layer");
+var addNullLayer = group3.add("button", undefined, "Add Null");
+var addTextLayer = group3.add("button", undefined, "Add Text");
 
 var array = ["Test 1", "Test 2", "Test 3"];
 
@@ -83,6 +84,10 @@ sequenceLayer.onClick = function () {
 
 addNullLayer.onClick = function () {
     addNullLayers();
+}
+
+addTextLayer.onClick = function () {
+    addTextLayers();
 }
 
 
@@ -146,7 +151,7 @@ function splitClips() {
 }
 
 function pageDowns() {
-    // change number depending on length of moving frames
+    // Change variable number depending on length of moving frames
     var number = 5;
     var comp = app.project.activeItem;
     if (comp && comp instanceof CompItem) {
@@ -198,7 +203,6 @@ function addNullLayers() {
     var selectedLayer;
     var layerIndex;
     var nullLayer;
-    var count = 1
 
     // Loops through all layers selected and adds a null layer on top
     for (var i = 0; i < allLayers.length * 2; i++) {
@@ -213,6 +217,34 @@ function addNullLayers() {
         nullLayer.outPoint = comp.layer(layerIndex + 1).outPoint;
         // Parent the layer
         selectedLayer.parent = nullLayer;
+    }
+    return true;
+}
+
+function addTextLayers() {
+    // Saves the selected "clip" aka layer into a variable
+    var comp = app.project.activeItem;
+
+    // Broken
+    if (comp === null || !(comp instanceof CompItem)) {
+        alert("No composition selected");
+        return false;
+    }
+
+    var allLayers = comp.selectedLayers;
+    var selectedLayer;
+    var layerIndex;
+    var textLayer;
+
+    // Loops through all layers selected and adds a text layer on top
+    for (var i = 0; i < allLayers.length * 2; i++) {
+        selectedLayer = allLayers[i];
+        layerIndex = selectedLayer.index;
+        textLayer = comp.layers.addText();
+        textLayer.label = 8;
+        textLayer.moveBefore(selectedLayer);
+        textLayer.inPoint = comp.layer(layerIndex + 1).inPoint;
+        textLayer.outPoint = comp.layer(layerIndex + 1).outPoint;
     }
     return true;
 }
