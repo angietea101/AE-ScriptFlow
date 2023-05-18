@@ -165,6 +165,7 @@ function pageDowns() {
     // Change variable number depending on length of moving frames
     var number = 5;
     var comp = app.project.activeItem;
+    app.beginUndoGroup("Page Down");
     if (comp && comp instanceof CompItem) {
         for (var i = 0; i < number; i++) {
             if (comp && comp instanceof CompItem) {
@@ -175,6 +176,7 @@ function pageDowns() {
         comp.time = comp.time + comp.frameDuration;
         app.executeCommand(app.findMenuCommandId("Split Layer"));
     }
+    app.endUndoGroup();
 }
 
 function removeOneFrameLayers() {
@@ -184,12 +186,14 @@ function removeOneFrameLayers() {
     }
     var comp = app.project.activeItem;
     var selectedLayers = comp.selectedLayers;
+    app.beginUndoGroup("Remove Freeze Frames");
     for (var i = 0; i < selectedLayers.length; i++) {
         var layer = selectedLayers[i];
         if (i % 2 == 0) {
             layer.remove();
         }
     }
+    app.endUndoGroup();
 }
 
 function sequenceLayers() {
@@ -197,7 +201,7 @@ function sequenceLayers() {
         alert("No composition selected");
         return false;
     }
-    app.executeCommand(app.findMenuCommandId('Sequence Layers...'))
+    app.executeCommand(app.findMenuCommandId('Sequence Layers...'));
 }
 
 function addNullLayers() {
@@ -214,6 +218,7 @@ function addNullLayers() {
     var selectedLayer;
     var layerIndex;
     var nullLayer;
+    app.beginUndoGroup("Add Null Layer");
 
     // Loops through all layers selected and adds a null layer on top
     for (var i = 0; i < allLayers.length * 2; i++) {
@@ -229,6 +234,8 @@ function addNullLayers() {
         // Parent the layer
         selectedLayer.parent = nullLayer;
     }
+
+    app.endUndoGroup();
     return true;
 }
 
@@ -247,6 +254,8 @@ function addTextLayers() {
     var layerIndex;
     var textLayer;
 
+    app.beginUndoGroup("Add Text Layer");
+
     // Loops through all layers selected and adds a text layer on top
     for (var i = 0; i < allLayers.length * 2; i++) {
         selectedLayer = allLayers[i];
@@ -257,6 +266,8 @@ function addTextLayers() {
         textLayer.inPoint = comp.layer(layerIndex + 1).inPoint;
         textLayer.outPoint = comp.layer(layerIndex + 1).outPoint;
     }
+
+    app.endUndoGroup();
     return true;
 }
 
@@ -275,7 +286,9 @@ function addAdjustmentLayer() {
     var layerIndex;
     var adjLayer;
 
-    // Loops through all layers selected and adds a text layer on top
+    app.beginUndoGroup("Add Adjustment Layer");
+
+    // Loops through all layers selected and adds an adjustment layer on top
     for (var i = 0; i < allLayers.length * 2; i++) {
         selectedLayer = allLayers[i];
         layerIndex = selectedLayer.index;
@@ -286,5 +299,7 @@ function addAdjustmentLayer() {
         adjLayer.inPoint = comp.layer(layerIndex + 1).inPoint;
         adjLayer.outPoint = comp.layer(layerIndex + 1).outPoint;
     }
+
+    app.endUndoGroup();
     return true;
 }
