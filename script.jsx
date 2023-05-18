@@ -13,10 +13,9 @@ var text = window.add("statictext", undefined, "brandon ugly");
 // Buttons
 var group = window.add("group", undefined, "");
 group.orientation = "row";
-var buttonOne = group.add("button", undefined, "Twixtor 80");
-var buttonTwo = group.add("button", undefined, "Twixtor Second 60");
-var buttonThree = group.add("button", undefined, "Twixtor Tamsaeps")
-var splitClip = group.add("button", undefined, "Split Clips");
+var twixtor80 = group.add("button", undefined, "Twixtor 80");
+var twixtorSecond60 = group.add("button", undefined, "Twixtor Second 60");
+var twixtorTamsaep = group.add("button", undefined, "Twixtor Tamsaeps");
 
 var group2 = window.add("group", undefined, "");
 var pageDown = group2.add("button", undefined, "Page Down");
@@ -24,11 +23,15 @@ var removeOnes = group2.add("button", undefined, "Remove Ones");
 var sequenceLayer = group2.add("button", undefined, "Sequence Layers");
 
 var group3 = window.add("group", undefined, "");
-var addNullLayer = group3.add("button", undefined, "Add Null");
-var addTextLayer = group3.add("button", undefined, "Add Text");
+var nullLayer = group3.add("button", undefined, "Add Null");
+var textLayer = group3.add("button", undefined, "Add Text");
+
+var group4 = window.add("group", undefined, "");
+var splitClip = group4.add("button", undefined, "Split Clips");
 
 var array = ["Test 1", "Test 2", "Test 3"];
 
+/*
 // Dropdown
 var dropdown = window.add("dropdownlist", undefined, array);
 dropdown.selection = 0;
@@ -48,21 +51,21 @@ textbox.size = [170, 25];
 
 var slider = window.add("slider",  undefined, "");
 slider.size = [170, 15];
-
+*/
 
 window.center();
 window.show();
 
 
-buttonOne.onClick = function() {    
+twixtor80.onClick = function() {    
     addTwixtors80();
 }
 
-buttonTwo.onClick = function() {    
+twixtorSecond60.onClick = function() {    
     addTwixtors();
 }
 
-buttonThree.onClick = function() {
+twixtorTamsaep.onClick = function() {
     addTwixtorsTamsaep();
 }
 
@@ -82,11 +85,11 @@ sequenceLayer.onClick = function () {
     sequenceLayers();
 }
 
-addNullLayer.onClick = function () {
+nullLayer.onClick = function () {
     addNullLayers();
 }
 
-addTextLayer.onClick = function () {
+textLayer.onClick = function () {
     addTextLayers();
 }
 
