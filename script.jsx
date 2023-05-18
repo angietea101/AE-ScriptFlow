@@ -8,24 +8,28 @@
 
 var window = new Window("palette", "Script", undefined);
 window.orientation = "column";
-var text = window.add("statictext", undefined, "brandon ugly");
 
 // Buttons
+var text = window.add("statictext", undefined, "");
 var group = window.add("group", undefined, "");
 group.orientation = "row";
 var twixtor80 = group.add("button", undefined, "Twixtor 80");
 var twixtorSecond60 = group.add("button", undefined, "Twixtor Second 60");
 var twixtorTamsaep = group.add("button", undefined, "Twixtor Tamsaeps");
 
+var text = window.add("statictext", undefined, "");
 var group2 = window.add("group", undefined, "");
 var pageDown = group2.add("button", undefined, "Page Down");
 var removeOnes = group2.add("button", undefined, "Remove Ones");
 var sequenceLayer = group2.add("button", undefined, "Sequence Layers");
 
+var text = window.add("statictext", undefined, "");
 var group3 = window.add("group", undefined, "");
 var nullLayer = group3.add("button", undefined, "Add Null");
 var textLayer = group3.add("button", undefined, "Add Text");
+var adjustmentLayer = group3.add("button", undefined, "Add Adjustment")
 
+var text = window.add("statictext", undefined, "");
 var group4 = window.add("group", undefined, "");
 var splitClip = group4.add("button", undefined, "Split Clips");
 
@@ -91,6 +95,10 @@ nullLayer.onClick = function () {
 
 textLayer.onClick = function () {
     addTextLayers();
+}
+
+adjustmentLayer.onClick = function () {
+    addAdjustmentLayer();
 }
 
 
@@ -248,6 +256,35 @@ function addTextLayers() {
         textLayer.moveBefore(selectedLayer);
         textLayer.inPoint = comp.layer(layerIndex + 1).inPoint;
         textLayer.outPoint = comp.layer(layerIndex + 1).outPoint;
+    }
+    return true;
+}
+
+function addAdjustmentLayer() {
+    // Saves the selected "clip" aka layer into a variable
+    var comp = app.project.activeItem;
+
+    // Broken
+    if (comp === null) {
+        alert("No composition selected");
+        return false;
+    }
+
+    var allLayers = comp.selectedLayers;
+    var selectedLayer;
+    var layerIndex;
+    var adjLayer;
+
+    // Loops through all layers selected and adds a text layer on top
+    for (var i = 0; i < allLayers.length * 2; i++) {
+        selectedLayer = allLayers[i];
+        layerIndex = selectedLayer.index;
+        adjLayer = comp.layers.addSolid([1, 1, 1], "Adjustment Layer", comp.width, comp.height, 1);
+        adjLayer.adjustmentLayer = true;
+        adjLayer.label = 5;
+        adjLayer.moveBefore(selectedLayer);
+        adjLayer.inPoint = comp.layer(layerIndex + 1).inPoint;
+        adjLayer.outPoint = comp.layer(layerIndex + 1).outPoint;
     }
     return true;
 }
