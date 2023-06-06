@@ -10,35 +10,24 @@ var window = new Window("palette", "Script", undefined);
 window.orientation = "column";
 
 // Buttons
-var text = window.add("statictext", undefined, "");
-var group0 = window.add("group", undefined, "");
-group0.orientation = "row";
-var prepEdit = group0.add("button", undefined, "Prep Edit");
-
-var text = window.add("statictext", undefined, "");
 var group = window.add("group", undefined, "");
 group.orientation = "row";
-var twixtor80 = group.add("button", undefined, "Twixtor 80");
-var twixtorSecond60 = group.add("button", undefined, "Twixtor Second 60");
-var twixtorTamsaep = group.add("button", undefined, "Twixtor Tamsaeps");
+var prepEdit = group.add("button", undefined, "Prep Edit");
 
-var text = window.add("statictext", undefined, "");
+var group1 = window.add("group", undefined, "");
+var twixtor80 = group1.add("button", undefined, "Twixtor 80");
+var twixtorSecond60 = group1.add("button", undefined, "Twixtor Second 60");
+var twixtorTamsaep = group1.add("button", undefined, "Twixtor Tamsaeps");
+
 var group2 = window.add("group", undefined, "");
-var pageDown = group2.add("button", undefined, "Page Down");
-var removeOnes = group2.add("button", undefined, "Remove Ones");
-var sequenceLayer = group2.add("button", undefined, "Sequence Layers");
+var nullLayer = group2.add("button", undefined, "Add Null");
+var textLayer = group2.add("button", undefined, "Add Text");
+var adjustmentLayer = group2.add("button", undefined, "Add Adjustment")
 
-var text = window.add("statictext", undefined, "");
 var group3 = window.add("group", undefined, "");
-var nullLayer = group3.add("button", undefined, "Add Null");
-var textLayer = group3.add("button", undefined, "Add Text");
-var adjustmentLayer = group3.add("button", undefined, "Add Adjustment")
-
-var text = window.add("statictext", undefined, "");
-var group4 = window.add("group", undefined, "");
-var splitClip = group4.add("button", undefined, "Split Clips");
-var freezeFrames = group4.add("button", undefined, "Delete Freeze Frames");
-var testButton = group4.add("button", undefined, "Test Button");
+var splitClip = group3.add("button", undefined, "Split Clips");
+var freezeFrames = group3.add("button", undefined, "Delete Freeze Frames");
+var testButton = group3.add("button", undefined, "Test Button");
 
 var array = ["Test 1", "Test 2", "Test 3"];
 
@@ -87,18 +76,6 @@ splitClip.onClick = function () {
     splitClips();
 }
 
-pageDown.onClick = function () {
-    pageDowns();
-}
-
-removeOnes.onClick = function () {
-    removeOneFrameLayers();
-}
-
-sequenceLayer.onClick = function () {
-    sequenceLayers();
-}
-
 nullLayer.onClick = function () {
     addNullLayers();
 }
@@ -117,7 +94,7 @@ freezeFrames.onClick = function() {
 
 testButton.onClick = function() {
     // Change this function
-    selectAllLayers();
+    selectLayersFromPlayhead();
 }
 
 // Functions
@@ -240,14 +217,13 @@ function splitClips() {
     app.project.item(1).layer(1).doSceneEditDetection(SceneEditDetectionMode.SPLIT_PRECOMP);
 }
 
-function pageDowns() {
+function pageDowns(number) {
     // Change variable number depending on length of moving frames
-    var number = 4;
     var comp = app.project.activeItem;
     app.beginUndoGroup("Page Down");
 
     // Move playhead to the start of the composition
-    comp.time = 0;
+    // comp.time = 0;
     if (comp && comp instanceof CompItem) {
         // Get the number of frames of the entire composition and the number of parts to cut
         var frameCount = comp.duration * comp.frameRate;
@@ -407,7 +383,36 @@ function selectAllLayers() {
     }
 }
 
+function selectLayersFromPlayhead(){
+    if (app.project.activeItem === null || !(app.project.activeItem instanceof CompItem)) {
+        alert("No composition selected");
+        return false;
+      }
+    
+    var activeItem = app.project.activeItem;
+    var selectedIndex = activeItem.numLayers;
+
+    // Selects layer from bottom up
+    while (selectedIndex >= 1) {
+        if (activeItem.layer(selectedIndex).inPoint >= activeItem.time) {
+            activeItem.layer(selectedIndex).selected = true;
+        } else {
+            activeItem.layer(selectedIndex).selected = false;
+        }
+        selectedIndex--;
+    }
+}
+
 function deleteFreezeFrames() {
-    pageDowns();
-    selectAllLayers();
+    // To start, cut the first freeze frame and leave playhead where frames begin to move
+    var comp = app.project.activeItem;
+    var currentTime = comp.time;
+    // Change parameter based on length of moving frames
+    pageDowns(2);
+    comp.time = currentTime;
+    comp.time = comp.time - comp.frameDuration;
+    comp.layer(1).selected = false;
+    selectLayersFromPlayhead();
+    removeOneFrameLayers();
+    sequenceLayers();
 }
