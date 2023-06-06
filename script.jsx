@@ -11,6 +11,11 @@ window.orientation = "column";
 
 // Buttons
 var text = window.add("statictext", undefined, "");
+var group0 = window.add("group", undefined, "");
+group0.orientation = "row";
+var prepEdit = group0.add("button", undefined, "Prep Edit");
+
+var text = window.add("statictext", undefined, "");
 var group = window.add("group", undefined, "");
 group.orientation = "row";
 var twixtor80 = group.add("button", undefined, "Twixtor 80");
@@ -60,6 +65,9 @@ slider.size = [170, 15];
 window.center();
 window.show();
 
+prepEdit.onClick = function() {
+    autoPrepEdit();
+}
 
 twixtor80.onClick = function() {    
     addTwixtors80();
@@ -101,6 +109,66 @@ adjustmentLayer.onClick = function () {
     addAdjustmentLayer();
 }
 
+// Functions
+
+function autoPrepEdit() {
+    if (app.project.activeItem === null || !(app.project.activeItem instanceof CompItem)) {
+        alert("No composition selected");
+        return false;
+    }
+
+    app.beginUndoGroup("Auto Prep Edit");
+
+    var comp = app.project.activeItem;
+    var layerCount = comp.layers.length;
+
+    if (layerCount === 0) {
+        alert("You don't have any layers in your composition");
+        return false;
+    } else if (layerCount === 1) {
+        var firstLayer = comp.layers[1];
+        var secondLayer = firstLayer.duplicate();
+    } else if (layerCount === 2) {
+        var firstLayer = comp.layers[1];
+        var secondLayer = comp.layers[2];
+    } else {
+        alert("You have too many layers");
+        return false;
+    }
+
+    var compHeight = comp.height;
+    var layerHeight = firstLayer.height;
+    var scaleFactor = compHeight / layerHeight;
+    var presetPath = "C:/Users/Angie/Documents/Adobe/After Effects 2022/User Presets/Watermark.ffx";
+    var myPreset = File(presetPath);
+
+    firstLayer.audioEnabled = false;
+    firstLayer.scale.setValue([scaleFactor * 100, scaleFactor * 100]);
+
+    secondLayer.enabled = false;
+    secondLayer.label = 0;
+
+    // Split clips
+    firstLayer.doSceneEditDetection(SceneEditDetectionMode.SPLIT_PRECOMP);
+
+    // Adding watermark
+    var textLayer = comp.layers.addText();
+    textLayer.label = 8;
+    textLayer.applyPreset(myPreset);
+    textLayer.blendingMode = BlendingMode.OVERLAY;
+
+    // Adding coloring
+    var adjustmentLayer = comp.layers.addSolid([255, 255, 255], "Adjustment Layer", comp.width, comp.height, comp.pixelAspect, comp.duration);
+    adjustmentLayer.adjustmentLayer = true;
+    adjustmentLayer.label = 5;
+    presetPath = "C:/Users/Angie/Documents/Adobe/After Effects 2022/User Presets/Color Talyx.ffx";
+    myPreset = File(presetPath);
+    adjustmentLayer.applyPreset(myPreset);
+
+    app.endUndoGroup();
+
+    return true; 
+}
 
 function modifyLayers() {
     if (app.project.activeItem == null || !(app.project.activeItem instanceof CompItem)) {
