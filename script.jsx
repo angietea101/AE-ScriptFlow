@@ -37,6 +37,7 @@ var adjustmentLayer = group3.add("button", undefined, "Add Adjustment")
 var text = window.add("statictext", undefined, "");
 var group4 = window.add("group", undefined, "");
 var splitClip = group4.add("button", undefined, "Split Clips");
+var freezeFrames = group4.add("button", undefined, "Delete Freeze Frames");
 var testButton = group4.add("button", undefined, "Test Button");
 
 var array = ["Test 1", "Test 2", "Test 3"];
@@ -108,6 +109,10 @@ textLayer.onClick = function () {
 
 adjustmentLayer.onClick = function () {
     addAdjustmentLayer();
+}
+
+freezeFrames.onClick = function() {
+    deleteFreezeFrames();
 }
 
 testButton.onClick = function() {
@@ -237,18 +242,28 @@ function splitClips() {
 
 function pageDowns() {
     // Change variable number depending on length of moving frames
-    var number = 5;
+    var number = 4;
     var comp = app.project.activeItem;
     app.beginUndoGroup("Page Down");
+
+    // Move playhead to the start of the composition
+    comp.time = 0;
     if (comp && comp instanceof CompItem) {
-        for (var i = 0; i < number; i++) {
-            if (comp && comp instanceof CompItem) {
-                comp.time = comp.time + comp.frameDuration;
+        // Get the number of frames of the entire composition and the number of parts to cut
+        var frameCount = comp.duration * comp.frameRate;
+        var cuts = Math.floor(frameCount / (number + 1));
+        // Loops until there is nothing left to cut
+        while (cuts > 0) {
+            for (var i = 0; i < number; i++) {
+                if (comp && comp instanceof CompItem) {
+                    comp.time = comp.time + comp.frameDuration;
+                }
             }
+            app.executeCommand(app.findMenuCommandId("Split Layer"));
+            comp.time = comp.time + comp.frameDuration;
+            app.executeCommand(app.findMenuCommandId("Split Layer"));
+            cuts--;
         }
-        app.executeCommand(app.findMenuCommandId("Split Layer"));
-        comp.time = comp.time + comp.frameDuration;
-        app.executeCommand(app.findMenuCommandId("Split Layer"));
     }
     app.endUndoGroup();
 }
