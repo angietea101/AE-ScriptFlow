@@ -37,6 +37,7 @@ var adjustmentLayer = group3.add("button", undefined, "Add Adjustment")
 var text = window.add("statictext", undefined, "");
 var group4 = window.add("group", undefined, "");
 var splitClip = group4.add("button", undefined, "Split Clips");
+var testButton = group4.add("button", undefined, "Test Button");
 
 var array = ["Test 1", "Test 2", "Test 3"];
 
@@ -107,6 +108,11 @@ textLayer.onClick = function () {
 
 adjustmentLayer.onClick = function () {
     addAdjustmentLayer();
+}
+
+testButton.onClick = function() {
+    // Change this function
+    selectAllLayers();
 }
 
 // Functions
@@ -370,4 +376,23 @@ function addAdjustmentLayer() {
 
     app.endUndoGroup();
     return true;
+}
+
+function selectAllLayers() {
+    var activeItem = app.project.activeItem;
+    activeItem.time = 0;
+    var selectedIndex = activeItem.numLayers;
+    while (selectedIndex >= 1) {
+        if (activeItem.layer(selectedIndex).inPoint >= activeItem.time) {
+            activeItem.layer(selectedIndex).selected = true;
+        } else {
+            activeItem.layer(selectedIndex).selected = false;
+        }
+        selectedIndex--;
+    }
+}
+
+function deleteFreezeFrames() {
+    pageDowns();
+    selectAllLayers();
 }
