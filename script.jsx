@@ -9,15 +9,14 @@
 var window = new Window("palette", "Script", undefined);
 window.orientation = "column";
 
+
 // Buttons
 var group = window.add("group", undefined, "");
 group.orientation = "row";
 var prepEdit = group.add("button", undefined, "Prep Edit");
+var testButton = group.add("button", undefined, "Test Button");
 
 var group1 = window.add("group", undefined, "");
-var twixtor80 = group1.add("button", undefined, "Twixtor 80");
-var twixtorSecond60 = group1.add("button", undefined, "Twixtor Second 60");
-var twixtorTamsaep = group1.add("button", undefined, "Twixtor Tamsaeps");
 
 var group2 = window.add("group", undefined, "");
 var nullLayer = group2.add("button", undefined, "Add Null");
@@ -25,20 +24,31 @@ var textLayer = group2.add("button", undefined, "Add Text");
 var adjustmentLayer = group2.add("button", undefined, "Add Adjustment")
 
 var group3 = window.add("group", undefined, "");
-var splitClip = group3.add("button", undefined, "Split Clips");
 var freezeFrames = group3.add("button", undefined, "Delete Freeze Frames");
-var testButton = group3.add("button", undefined, "Test Button");
 
-var array = ["Test 1", "Test 2", "Test 3"];
 
-/*
 // Dropdown
-var dropdown = window.add("dropdownlist", undefined, array);
+var menuList = ["Twixtors 80", "Twixtor Second 60", "Twixtor Tamsaeps"]
+var dropdown = window.add("dropdownlist", undefined, menuList);
+var dropdownButtons = window.add("group");
+var dropdownApply = dropdownButtons.add('button', undefined, 'Apply');
 dropdown.selection = 0;
 dropdown.size = [170, 25];
 
-dropdown.add("item", "My Extra Item");
+// Dropdown Action
+dropdownApply.onClick = function() {
+    if (dropdown.selection.text === 'Twixtors 80') {
+        addTwixtors80();
+    } else if (dropdown.selection.text === 'Twixtor Second 60') {
+        addTwixtorsSecond60();
+    } else if (dropdown.selection.text === 'Twixtor Tamsaeps') {
+        addTwixtorsTamsaep();
+    } else {
+        alert('Error applying selection');
+    }
+}
 
+/*
 // Radio & Checkbox
 var panel = window.add("panel", undefined, "Panel");
 panel.oriention = "row";
@@ -56,24 +66,10 @@ slider.size = [170, 15];
 window.center();
 window.show();
 
+
+// Buttons
 prepEdit.onClick = function() {
     autoPrepEdit();
-}
-
-twixtor80.onClick = function() {    
-    addTwixtors80();
-}
-
-twixtorSecond60.onClick = function() {    
-    addTwixtors();
-}
-
-twixtorTamsaep.onClick = function() {
-    addTwixtorsTamsaep();
-}
-
-splitClip.onClick = function () {
-    splitClips();
 }
 
 nullLayer.onClick = function () {
@@ -97,8 +93,8 @@ testButton.onClick = function() {
     selectLayersFromPlayhead();
 }
 
-// Functions
 
+// Functions
 function autoPrepEdit() {
     if (app.project.activeItem === null || !(app.project.activeItem instanceof CompItem)) {
         alert("No composition selected");
@@ -183,7 +179,7 @@ function addTwixtors80() {
     composition.layer(1).applyPreset(myPreset);
 }
 
-function addTwixtors() {
+function addTwixtorsSecond60() {
     if (app.project.activeItem == null || !(app.project.activeItem instanceof CompItem)) {
         alert("No composition selected");
         return false;
