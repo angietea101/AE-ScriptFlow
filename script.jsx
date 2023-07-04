@@ -25,7 +25,7 @@ var adjustmentLayer = group2.add("button", undefined, "Add Adjustment")
 
 var group3 = window.add("group", undefined, "");
 var freezeFrames = group3.add("button", undefined, "Delete Freeze Frames");
-
+var freezeFrames2 = group3.add("button", undefined, "DFF2");
 
 // Dropdown
 var menuList = ["Twixtors 80", "Twixtor Second 60", "Twixtor Tamsaeps"]
@@ -86,6 +86,10 @@ adjustmentLayer.onClick = function () {
 
 freezeFrames.onClick = function() {
     deleteFreezeFrames();
+}
+
+freezeFrames2.onClick = function() {
+    deleteFreezeFrames2();
 }
 
 testButton.onClick = function() {
@@ -404,7 +408,18 @@ function deleteFreezeFrames() {
     var comp = app.project.activeItem;
     var currentTime = comp.time;
     // Change parameter based on length of moving frames
-    pageDowns(2);
+    pageDowns(5);
+    comp.time = currentTime;
+    comp.time = comp.time - comp.frameDuration;
+    comp.layer(1).selected = false;
+    selectLayersFromPlayhead();
+    removeOneFrameLayers();
+    sequenceLayers();
+}
+
+function deleteFreezeFrames2() {
+    var comp = app.project.activeItem;
+    var currentTime = comp.time;
     comp.time = currentTime;
     comp.time = comp.time - comp.frameDuration;
     comp.layer(1).selected = false;
