@@ -130,7 +130,7 @@ function autoPrepEdit() {
     var compHeight = comp.height;
     var layerHeight = firstLayer.height;
     var scaleFactor = compHeight / layerHeight;
-    var presetPath = "/Users/talyx/Documents/Adobe/After Effects 2022/User Presets/Watermark.ffx";
+    var presetPath = "C:/Users/Angie/Documents/Adobe/After Effects 2022/User Presets/Watermark.ffx";
     var myPreset = File(presetPath);
 
     firstLayer.audioEnabled = false;
@@ -152,7 +152,7 @@ function autoPrepEdit() {
     var adjustmentLayer = comp.layers.addSolid([255, 255, 255], "Adjustment Layer", comp.width, comp.height, comp.pixelAspect, comp.duration);
     adjustmentLayer.adjustmentLayer = true;
     adjustmentLayer.label = 5;
-    presetPath = "/Users/talyx/Documents/Adobe/After Effects 2022/User Presets/Color Talyx.ffx";
+    presetPath = "C:/Users/Angie/Documents/Adobe/After Effects 2022/User Presets/Color Talyx.ffx";
     myPreset = File(presetPath);
     adjustmentLayer.applyPreset(myPreset);
 
@@ -181,7 +181,7 @@ function addTwixtors80() {
     }
     
     var composition = app.project.activeItem;
-    var presetPath = "/Users/talyx/Documents/Adobe/After Effects 2022/User Presets/Twixtor 80.ffx";
+    var presetPath = "C:/Users/Angie/Documents/Adobe/After Effects 2022/User Presets/Twixtor 80.ffx";
     var myPreset = File(presetPath)
     composition.layer(1).applyPreset(myPreset);
 }
@@ -193,7 +193,7 @@ function addTwixtorsSecond60() {
     }
     
     var composition = app.project.activeItem;
-    var presetPath = "/Users/talyx/Documents/Adobe/After Effects 2022/User Presets/Twixtor Second 60.ffx";
+    var presetPath = "C:/Users/Angie/Documents/Adobe/After Effects 2022/User Presets/Twixtor Second 60.ffx";
     var myPreset = File(presetPath)
     composition.layer(1).applyPreset(myPreset);
 }
@@ -205,7 +205,7 @@ function addTwixtorsTamsaep() {
     }
     
     var composition = app.project.activeItem;
-    var presetPath = "/Users/talyx/Documents/Adobe/After Effects 2022/User Presets/Twixtor Tamsaeps.ffx";
+    var presetPath = "C:/Users/Angie/Documents/Adobe/After Effects 2022/User Presets/Twixtor Tamsaeps.ffx";
     var myPreset = File(presetPath)
     composition.layer(1).applyPreset(myPreset);
 }
