@@ -72,11 +72,7 @@
                     deleteFreezeFrames2();
                 };
 
-            var menuList = [
-                "Twixtors Main",
-                "Twixtor Second 60",
-                "Twixtor Tamsaeps",
-            ];
+            var menuList = ["Twixtors Main", "Twixtors Tamsaeps"];
             myPanel.grp.groupEight.dropdown.size = [90, 25];
             for (var i = 0; i < menuList.length; i++) {
                 myPanel.grp.groupEight.dropdown.add("item", menuList[i]);
@@ -85,17 +81,12 @@
             myPanel.grp.groupNine.applyButton.onClick = function () {
                 if (
                     myPanel.grp.groupEight.dropdown.selection.text ===
-                    "Twixtors 80"
+                    "Twixtors Main"
                 ) {
                     addTwixtorsMain();
                 } else if (
                     myPanel.grp.groupEight.dropdown.selection.text ===
-                    "Twixtor Second 60"
-                ) {
-                    addTwixtorsSecond60();
-                } else if (
-                    myPanel.grp.groupEight.dropdown.selection.text ===
-                    "Twixtor Tamsaeps"
+                    "Twixtors Tamsaeps"
                 ) {
                     addTwixtorsTamsaep();
                 } else {
@@ -130,6 +121,8 @@ var coloringPath =
     "C:/Users/Angie/Documents/Adobe/After Effects 2023/User Presets/Color Talyx.ffx";
 var twixtorMainPath =
     "C:/Users/Angie/Documents/Adobe/After Effects 2023/User Presets/Twixtor Main.ffx";
+var twixtorTamsaepsPath =
+    "C:/Users/Angie/Documents/Adobe/After Effects 2023/User Presets/Twixtor Tamsaeps.ffx";
 
 // Functions
 function autoPrepEdit() {
@@ -225,22 +218,6 @@ function addTwixtorsMain() {
     composition.layer(1).applyPreset(File(twixtorMainPath));
 }
 
-function addTwixtorsSecond60() {
-    if (
-        app.project.activeItem == null ||
-        !(app.project.activeItem instanceof CompItem)
-    ) {
-        alert("No composition selected");
-        return false;
-    }
-
-    var composition = app.project.activeItem;
-    var presetPath =
-        "C:/Users/Angie/Documents/Adobe/After Effects 2022/User Presets/Twixtor Second 60.ffx";
-    var myPreset = File(presetPath);
-    composition.layer(1).applyPreset(myPreset);
-}
-
 function addTwixtorsTamsaep() {
     if (
         app.project.activeItem == null ||
@@ -251,10 +228,7 @@ function addTwixtorsTamsaep() {
     }
 
     var composition = app.project.activeItem;
-    var presetPath =
-        "C:/Users/Angie/Documents/Adobe/After Effects 2022/User Presets/Twixtor Tamsaeps.ffx";
-    var myPreset = File(presetPath);
-    composition.layer(1).applyPreset(myPreset);
+    composition.layer(1).applyPreset(File(twixtorTamsaepsPath));
 }
 
 // Flesh out the Twixtor adding mechanism
