@@ -1,9 +1,16 @@
 {
     function myScript(thisObj) {
         function myScriptBuildUI(thisObj) {
-            var myPanel = (thisObj instanceof Panel) ? thisObj : new Window("palette", "Dockable Script", undefined, {resizeable: true, closeButton: false});
+            var myPanel =
+                thisObj instanceof Panel
+                    ? thisObj
+                    : new Window("palette", "Dockable Script", undefined, {
+                          resizeable: true,
+                          closeButton: false,
+                      });
 
-            res = "group{orientation:'column',\
+            res =
+                "group{orientation:'column',\
             groupOne: Group{orientation:'row',\
             prepEditButton: Button{text:'Prep Edit'},\
             },\
@@ -39,71 +46,91 @@
             myPanel.grp = myPanel.add(res);
 
             // Button functionality
-            myPanel.grp.groupOne.prepEditButton.onClick = function() {
-                autoPrepEdit()
-            }
+            myPanel.grp.groupOne.prepEditButton.onClick = function () {
+                autoPrepEdit();
+            };
 
             myPanel.grp.groupThree.addNullLayer.onClick = function () {
                 addNullLayers();
-            }
-            
+            };
+
             myPanel.grp.groupFour.addTextLayer.onClick = function () {
                 addTextLayers();
-            }
-            
+            };
+
             myPanel.grp.groupFive.addAdjustmentLayer.onClick = function () {
                 addAdjustmentLayer();
-            }
-            
-            myPanel.grp.groupSix.deleteFreezeFramesButton.onClick = function() {
-                deleteFreezeFrames();
-            }
-            
-            myPanel.grp.groupSeven.deleteFreezeFramesButton2.onClick = function() {
-                deleteFreezeFrames2();
-            }
+            };
 
-            var menuList = ["Twixtors 80", "Twixtor Second 60", "Twixtor Tamsaeps"];
+            myPanel.grp.groupSix.deleteFreezeFramesButton.onClick =
+                function () {
+                    deleteFreezeFrames();
+                };
+
+            myPanel.grp.groupSeven.deleteFreezeFramesButton2.onClick =
+                function () {
+                    deleteFreezeFrames2();
+                };
+
+            var menuList = [
+                "Twixtors 80",
+                "Twixtor Second 60",
+                "Twixtor Tamsaeps",
+            ];
             myPanel.grp.groupEight.dropdown.size = [90, 25];
-            for(var i = 0; i < menuList.length; i++) {
+            for (var i = 0; i < menuList.length; i++) {
                 myPanel.grp.groupEight.dropdown.add("item", menuList[i]);
             }
             myPanel.grp.groupEight.dropdown.selection = 0;
-            myPanel.grp.groupNine.applyButton.onClick = function() {
-                if (myPanel.grp.groupEight.dropdown.selection.text === 'Twixtors 80') {
+            myPanel.grp.groupNine.applyButton.onClick = function () {
+                if (
+                    myPanel.grp.groupEight.dropdown.selection.text ===
+                    "Twixtors 80"
+                ) {
                     addTwixtors80();
-                } else if (myPanel.grp.groupEight.dropdown.selection.text === 'Twixtor Second 60') {
+                } else if (
+                    myPanel.grp.groupEight.dropdown.selection.text ===
+                    "Twixtor Second 60"
+                ) {
                     addTwixtorsSecond60();
-                } else if (myPanel.grp.groupEight.dropdown.selection.text === 'Twixtor Tamsaeps') {
+                } else if (
+                    myPanel.grp.groupEight.dropdown.selection.text ===
+                    "Twixtor Tamsaeps"
+                ) {
                     addTwixtorsTamsaep();
                 } else {
-                    alert('Error applying selection');
+                    alert("Error applying selection");
                 }
-            }
-            
-            myPanel.grp.groupTwo.testButtonButton.onClick = function() {
+            };
+
+            myPanel.grp.groupTwo.testButtonButton.onClick = function () {
                 // Change this function
                 selectLayersFromPlayhead();
-            }
-            
+            };
+
             myPanel.layout.layout(true);
 
             return myPanel;
         }
 
-    var myScriptPal = myScriptBuildUI(thisObj);
+        var myScriptPal = myScriptBuildUI(thisObj);
 
-    if(myScriptPal != null && myScriptPal instanceof Window) {
-        myScriptPal.center();
-        myScriptPal.show();
+        if (myScriptPal != null && myScriptPal instanceof Window) {
+            myScriptPal.center();
+            myScriptPal.show();
         }
     }
     myScript(this);
 }
 
+// File Paths
+
 // Functions
 function autoPrepEdit() {
-    if (app.project.activeItem === null || !(app.project.activeItem instanceof CompItem)) {
+    if (
+        app.project.activeItem === null ||
+        !(app.project.activeItem instanceof CompItem)
+    ) {
         alert("No composition selected");
         return false;
     }
@@ -130,8 +157,6 @@ function autoPrepEdit() {
     var compHeight = comp.height;
     var layerHeight = firstLayer.height;
     var scaleFactor = compHeight / layerHeight;
-    var presetPath = "C:/Users/Angie/Documents/Adobe/After Effects 2022/User Presets/Watermark.ffx";
-    var myPreset = File(presetPath);
 
     firstLayer.audioEnabled = false;
     firstLayer.scale.setValue([scaleFactor * 100, scaleFactor * 100]);
@@ -142,82 +167,113 @@ function autoPrepEdit() {
     // Split clips
     firstLayer.doSceneEditDetection(SceneEditDetectionMode.SPLIT_PRECOMP);
 
+    // Adding coloring
+    var presetPath =
+        "C:/Users/Angie/Documents/Adobe/After Effects 2022/User Presets/Color Talyx.ffx";
+    var adjustmentLayer = comp.layers.addSolid(
+        [255, 255, 255],
+        "Adjustment Layer",
+        comp.width,
+        comp.height,
+        comp.pixelAspect,
+        comp.duration,
+    );
+    adjustmentLayer.adjustmentLayer = true;
+    adjustmentLayer.label = 5;
+    myPreset = File(presetPath);
+    adjustmentLayer.applyPreset(myPreset);
+
     // Adding watermark
+    presetPath =
+        "C:/Users/Angie/Documents/Adobe/After Effects 2022/User Presets/Watermark.ffx";
+    var myPreset = File(presetPath);
     var textLayer = comp.layers.addText();
     textLayer.label = 8;
     textLayer.applyPreset(myPreset);
     textLayer.blendingMode = BlendingMode.OVERLAY;
 
-    // Adding coloring
-    var adjustmentLayer = comp.layers.addSolid([255, 255, 255], "Adjustment Layer", comp.width, comp.height, comp.pixelAspect, comp.duration);
-    adjustmentLayer.adjustmentLayer = true;
-    adjustmentLayer.label = 5;
-    presetPath = "C:/Users/Angie/Documents/Adobe/After Effects 2022/User Presets/Color Talyx.ffx";
-    myPreset = File(presetPath);
-    adjustmentLayer.applyPreset(myPreset);
-
     app.endUndoGroup();
 
-    return true; 
+    return true;
 }
 
 function modifyLayers() {
-    if (app.project.activeItem == null || !(app.project.activeItem instanceof CompItem)) {
+    if (
+        app.project.activeItem == null ||
+        !(app.project.activeItem instanceof CompItem)
+    ) {
         alert("No composition selected");
         return false;
     }
-    
+
     app.executeCommand(app.findMenuCommandId("Select All"));
     // app.executeCommand(app.findMenuCommandId("Sequence Layers..."));
-
 
     // layer.property("ADBE Transform Group").property("ADBE Scale").setValue([200, 200]);
 }
 
 function addTwixtors80() {
-    if (app.project.activeItem == null || !(app.project.activeItem instanceof CompItem)) {
+    if (
+        app.project.activeItem == null ||
+        !(app.project.activeItem instanceof CompItem)
+    ) {
         alert("No composition selected");
         return false;
     }
-    
+
     var composition = app.project.activeItem;
-    var presetPath = "C:/Users/Angie/Documents/Adobe/After Effects 2022/User Presets/Twixtor 80.ffx";
-    var myPreset = File(presetPath)
+    var presetPath =
+        "C:/Users/Angie/Documents/Adobe/After Effects 2022/User Presets/Twixtor 80.ffx";
+    var myPreset = File(presetPath);
     composition.layer(1).applyPreset(myPreset);
 }
 
 function addTwixtorsSecond60() {
-    if (app.project.activeItem == null || !(app.project.activeItem instanceof CompItem)) {
+    if (
+        app.project.activeItem == null ||
+        !(app.project.activeItem instanceof CompItem)
+    ) {
         alert("No composition selected");
         return false;
     }
-    
+
     var composition = app.project.activeItem;
-    var presetPath = "C:/Users/Angie/Documents/Adobe/After Effects 2022/User Presets/Twixtor Second 60.ffx";
-    var myPreset = File(presetPath)
+    var presetPath =
+        "C:/Users/Angie/Documents/Adobe/After Effects 2022/User Presets/Twixtor Second 60.ffx";
+    var myPreset = File(presetPath);
     composition.layer(1).applyPreset(myPreset);
 }
 
 function addTwixtorsTamsaep() {
-    if (app.project.activeItem == null || !(app.project.activeItem instanceof CompItem)) {
+    if (
+        app.project.activeItem == null ||
+        !(app.project.activeItem instanceof CompItem)
+    ) {
         alert("No composition selected");
         return false;
     }
-    
+
     var composition = app.project.activeItem;
-    var presetPath = "C:/Users/Angie/Documents/Adobe/After Effects 2022/User Presets/Twixtor Tamsaeps.ffx";
-    var myPreset = File(presetPath)
+    var presetPath =
+        "C:/Users/Angie/Documents/Adobe/After Effects 2022/User Presets/Twixtor Tamsaeps.ffx";
+    var myPreset = File(presetPath);
     composition.layer(1).applyPreset(myPreset);
 }
 
 // Flesh out the Twixtor adding mechanism
 function splitClips() {
-    if (app.project.activeItem == null || !(app.project.activeItem instanceof CompItem)) {
+    if (
+        app.project.activeItem == null ||
+        !(app.project.activeItem instanceof CompItem)
+    ) {
         alert("No composition selected");
         return false;
     }
 
-    app.project.item(1).layer(1).doSceneEditDetection(SceneEditDetectionMode.SPLIT_PRECOMP);
+    app.project
+        .item(1)
+        .layer(1)
+        .doSceneEditDetection(SceneEditDetectionMode.SPLIT_PRECOMP);
 }
 
 function pageDowns(number) {
@@ -248,7 +304,10 @@ function pageDowns(number) {
 }
 
 function removeOneFrameLayers() {
-    if (app.project.activeItem == null || !(app.project.activeItem instanceof CompItem)) {
+    if (
+        app.project.activeItem == null ||
+        !(app.project.activeItem instanceof CompItem)
+    ) {
         alert("No composition selected");
         return false;
     }
@@ -265,11 +324,14 @@ function removeOneFrameLayers() {
 }
 
 function sequenceLayers() {
-    if (app.project.activeItem == null || !(app.project.activeItem instanceof CompItem)) {
+    if (
+        app.project.activeItem == null ||
+        !(app.project.activeItem instanceof CompItem)
+    ) {
         alert("No composition selected");
         return false;
     }
-    app.executeCommand(app.findMenuCommandId('Sequence Layers...'));
+    app.executeCommand(app.findMenuCommandId("Sequence Layers..."));
 }
 
 function addNullLayers() {
@@ -360,7 +422,13 @@ function addAdjustmentLayer() {
     for (var i = 0; i < allLayers.length * 2; i++) {
         selectedLayer = allLayers[i];
         layerIndex = selectedLayer.index;
-        adjLayer = comp.layers.addSolid([1, 1, 1], "Adjustment Layer", comp.width, comp.height, 1);
+        adjLayer = comp.layers.addSolid(
+            [1, 1, 1],
+            "Adjustment Layer",
+            comp.width,
+            comp.height,
+            1,
+        );
         adjLayer.adjustmentLayer = true;
         adjLayer.label = 5;
         adjLayer.moveBefore(selectedLayer);
@@ -386,12 +454,15 @@ function selectAllLayers() {
     }
 }
 
-function selectLayersFromPlayhead(){
-    if (app.project.activeItem === null || !(app.project.activeItem instanceof CompItem)) {
+function selectLayersFromPlayhead() {
+    if (
+        app.project.activeItem === null ||
+        !(app.project.activeItem instanceof CompItem)
+    ) {
         alert("No composition selected");
         return false;
-      }
-    
+    }
+
     var activeItem = app.project.activeItem;
     var selectedIndex = activeItem.numLayers;
 
