@@ -1,8 +1,4 @@
-var userPresetsFolder =
-    "C:/Users/Angie/Documents/Adobe/After Effects 2023/User Presets";
-
-var watermarkPath = userPresetsFolder + "/Watermark.ffx";
-var coloringPath = userPresetsFolder + "/Color Talyx.ffx";
+//@include "presets.jsx"
 
 function autoPrepEdit() {
     if (

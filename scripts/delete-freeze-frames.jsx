@@ -1,7 +1,7 @@
-#include "page-downs.jsx"
-#include "select-layers-from-playhead.jsx"
-#include "remove-one-frame-layers.jsx"
-#include "sequence-layers.jsx"
+//@include "page-downs.jsx"
+//@include "select-layers-from-playhead.jsx"
+//@include "remove-one-frame-layers.jsx"
+//@include "sequence-layers.jsx"
 
 function deleteFreezeFramez() {
     // To start, cut the first freeze frame and leave playhead where frames begin to move

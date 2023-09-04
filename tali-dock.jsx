@@ -1,13 +1,13 @@
-#include "scripts/auto-prep-edit.jsx"
-#include "scripts/add-null-layer.jsx"
-#include "scripts/add-text-layer.jsx"
-#include "scripts/add-adjustment-layer.jsx"
-#include "scripts/delete-freeze-frames.jsx"
-#include "scripts/delete-freeze-frames2.jsx"
-#include "scripts/add-twixtor-main.jsx"
-#include "scripts/add-twixtor-velocity.jsx"
-#include "scripts/add-flash.jsx"
-#include "scripts/add-text-glow-main.jsx"
+//@include "scripts/auto-prep-edit.jsx"
+//@include "scripts/add-null-layer.jsx"
+//@include "scripts/add-text-layer.jsx"
+//@include "scripts/add-adjustment-layer.jsx"
+//@include "scripts/delete-freeze-frames.jsx"
+//@include "scripts/delete-freeze-frames2.jsx"
+//@include "scripts/add-twixtor-main.jsx"
+//@include "scripts/add-twixtor-velocity.jsx"
+//@include "scripts/add-flash.jsx"
+//@include "scripts/add-text-glow-main.jsx"
 
 (function (thisObj) {
     scriptBuildUI(thisObj);
@@ -22,7 +22,11 @@
 
         // Buttons
         var prepEdit = win.add("button", undefined, "Prep Edit");
-        var sep = win.add("statictext {preferredSize: [10, 10]}", undefined, "");
+        var sep = win.add(
+            "statictext {preferredSize: [10, 10]}",
+            undefined,
+            "",
+        );
         var addNull = win.add("button", undefined, "Add Null");
         var addText = win.add("button", undefined, "Add Text");
         var addAdj = win.add("button", undefined, "Add Adj");

@@ -2,7 +2,6 @@ function addNullLayer() {
     // Saves the selected "clip" aka layer into a variable
     var comp = app.project.activeItem;
 
-    // Broken
     if (comp === null || !(comp instanceof CompItem)) {
         alert("No composition selected");
         return false;

@@ -1,14 +1,14 @@
-#include "presets.jsx"
+//@include "presets.jsx"
 
 function addTwixtorMain() {
     if (
-      app.project.activeItem == null ||
-      !(app.project.activeItem instanceof CompItem)
+        app.project.activeItem == null ||
+        !(app.project.activeItem instanceof CompItem)
     ) {
-      alert("No composition selected");
-      return false;
+        alert("No composition selected");
+        return false;
     }
-  
+
     var composition = app.project.activeItem;
     composition.layer(1).applyPreset(File(twixtorMainPath));
-  }
+}

@@ -1,9 +1,9 @@
-#include "select-layers-from-playhead.jsx"
-#include "remove-one-frame-layers.jsx"
-#include "sequence-layers.jsx"
+//@include "select-layers-from-playhead.jsx"
+//@include "remove-one-frame-layers.jsx"
+//@include "sequence-layers.jsx"
 
 function deleteFreezeFramez2() {
-    alert('hello')
+    alert("hello");
     var comp = app.project.activeItem;
     var currentTime = comp.time;
     comp.time = currentTime;
@@ -12,4 +12,4 @@ function deleteFreezeFramez2() {
     selectLayersFromPlayhead();
     removeOneFrameLayers();
     sequenceLayers();
-};
+}
