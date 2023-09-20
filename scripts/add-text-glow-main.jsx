@@ -1,7 +1,6 @@
 //@include "presets.jsx"
 
 function addTextGlowMain() {
-    alert("hello");
     if (
         app.project.activeItem == null ||
         !(app.project.activeItem instanceof CompItem)

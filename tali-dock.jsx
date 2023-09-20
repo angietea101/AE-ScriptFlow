@@ -27,13 +27,13 @@
             undefined,
             "",
         );
-        var addNull = win.add("button", undefined, "Add Null");
-        var addText = win.add("button", undefined, "Add Text");
-        var addAdj = win.add("button", undefined, "Add Adj");
+        var addNull = win.add("button", undefined, "Null");
+        var addText = win.add("button", undefined, "Text");
+        var addAdj = win.add("button", undefined, "Adj");
         var deleteFreezeFrames = win.add("button", undefined, "DFF1");
         var deleteFreezeFrames2 = win.add("button", undefined, "DFF2");
 
-        var menuList = ["Twixtors Main", "Twixtors Velocity"];
+        var menuList = ["Main", "Velocity"];
         var dropdown = win.add("dropdownlist", undefined, menuList);
         dropdown.size = [80, 25];
 
@@ -85,9 +85,9 @@
         // Dropdown functionality
         dropdown.selection = 0;
         apply.onClick = function () {
-            if (dropdown.selection.text === "Twixtors Main") {
+            if (dropdown.selection.text === "Main") {
                 addTwixtorMain();
-            } else if (dropdown.selection.text === "Twixtors Velocity") {
+            } else if (dropdown.selection.text === "Velocity") {
                 addTwixtorVelocity();
             } else {
                 alert("Error applying selection");
