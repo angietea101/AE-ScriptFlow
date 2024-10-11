@@ -8,6 +8,7 @@
 //@include "scripts/add-twixtor-velocity.jsx"
 //@include "scripts/add-flash.jsx"
 //@include "scripts/add-text-glow-main.jsx"
+//@include "scripts/presets-search.jsx"
 
 (function (thisObj) {
     scriptBuildUI(thisObj);
@@ -32,6 +33,8 @@
         var addAdj = win.add("button", undefined, "Adj");
         var deleteFreezeFrames = win.add("button", undefined, "DFF1");
         var deleteFreezeFrames2 = win.add("button", undefined, "DFF2");
+
+        var searchPresetsButton = win.add("button", undefined, "Search");
 
         var menuList = ["Main", "Velocity"];
         var dropdown = win.add("dropdownlist", undefined, menuList);
@@ -80,6 +83,11 @@
 
         deleteFreezeFrames2.onClick = function () {
             deleteFreezeFramez2();
+        };
+
+        // Open Search Presets UI
+        searchPresetsButton.onClick = function () {
+            new SearchPresets(this); // Open the search presets UI
         };
 
         // Dropdown functionality
